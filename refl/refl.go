@@ -1,6 +1,9 @@
 package refl
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 func NestedFields(obj interface{}) []reflect.StructField {
 
@@ -62,4 +65,24 @@ func ComposedOf(item interface{}, parent interface{}) bool {
 	}
 
 	return true
+}
+
+func Signature(t reflect.Type) string {
+	sig := ""
+	if t.Kind() == reflect.Ptr {
+		sig = "*" + Signature(t.Elem())
+	} else if t.Kind() == reflect.Map {
+		sig = "map"
+	} else if t.Kind() == reflect.Struct {
+		sig = fmt.Sprintf("st:%s.%s", t.PkgPath(), t.Name())
+	} else if t.Kind() == reflect.Interface {
+		sig = fmt.Sprintf("i:%s.%s", t.PkgPath(), t.Name())
+	} else if t.Kind() == reflect.Array {
+		sig = fmt.Sprintf("sl:%s.%s", t.Elem().PkgPath(), t.Elem().Name())
+	} else if t.Kind() == reflect.Slice {
+		sig = fmt.Sprintf("sl:%s.%s", t.Elem().PkgPath(), t.Elem().Name())
+	} else {
+		sig = t.Name()
+	}
+	return sig
 }
