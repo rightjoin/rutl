@@ -55,3 +55,12 @@ func GetContent(path string) (string, error) {
 	}
 	return string(b), nil
 }
+
+func ReadFile(adap, path string, param ...string) (string, error) {
+
+	if adap == "disk" {
+		return GetContent(path)
+	}
+
+	return "", errors.New("Unsupported adapter")
+}
