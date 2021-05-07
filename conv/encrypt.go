@@ -80,7 +80,7 @@ func Decrypt(cryptedText string, keyString string) (plainText string, err error)
 // Encrypt takes two string, plainText and keyString.
 // plainText is the text that needs to be encrypted by keyString.
 // The function will output the resulting crypto text and an error variable.
-// If consistent is true, then same key and input will always product the same output.
+// If consistent is true, then same key and input will always produce the same output.
 // If false, same key and input will produce a different encrypted output everytime.
 func Encrypt(plainText string, keyString string, consistent bool) (cryptedText string, err error) {
 

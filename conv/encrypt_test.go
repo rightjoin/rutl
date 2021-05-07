@@ -14,7 +14,7 @@ func TestEncryption(t *testing.T) {
 		{"Long input with more than 16 characters", "Car"},
 	}
 	for _, d := range data {
-		enc, err := Encrypt(d.input, d.key)
+		enc, err := Encrypt(d.input, d.key, false)
 		if err != nil {
 			t.Errorf("Unable to encrypt '%v' with key '%v': %v", d.input, d.key, err)
 			continue
