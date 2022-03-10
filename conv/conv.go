@@ -1,6 +1,7 @@
 package conv
 
 import (
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -20,7 +21,9 @@ func CaseSnake(text string) string {
 	return snakecase.SnakeCase(text)
 }
 
-func CaseURL(text string) string {
+var unwantedChars = regexp.MustCompile(`[^a-zA-Z0-9\-]+`)
+
+func CaseURL(text string, conf ...UrlConfig) string {
 	var words []string
 	l := 0
 	for s := text; s != ""; s = s[l:] {
@@ -33,6 +36,12 @@ func CaseURL(text string) string {
 
 	url := strings.ToLower(strings.Join(words, "-"))
 	url = strings.Replace(url, "--", "-", -1) // pure hack. todo: reg-ex
+
+	// remove extra chars
+	if len(conf) > 0 && conf[0].RemoveExtraCharacters {
+		url = unwantedChars.ReplaceAllString(url, "")
+	}
+
 	return url
 }
 
@@ -44,4 +53,8 @@ func CaseSentence(text string) string {
 	}
 
 	return text
+}
+
+type UrlConfig struct {
+	RemoveExtraCharacters bool // any chars other than A-Za-z0-9 and -
 }
